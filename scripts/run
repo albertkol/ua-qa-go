@@ -1,0 +1,6 @@
+#! /usr/bin/env bash
+
+docker run -it \
+    --net=host \
+    --rm \
+    ua-qa-go

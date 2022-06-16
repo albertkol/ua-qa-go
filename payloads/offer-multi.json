@@ -1,0 +1,14 @@
+{
+    "accountID": "${account_id}",
+    "actionable": true,
+    "items": [
+        {
+            "productListingID": "lALl4tsdypcZWw-01AY9aqoHT7fvudyb8Am3ZV_KsCLA",
+            "value": 1
+        },
+        {
+            "productListingID": "lALnkypvobLrAHRouZLiN5HPpVV9-KBYcM0LY-ZDLj2o",
+            "value": 2
+        }
+    ]
+}
