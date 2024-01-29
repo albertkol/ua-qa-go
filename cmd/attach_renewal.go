@@ -88,30 +88,37 @@ var attachRenewalCmd = &cobra.Command{
 			pdata["renewal_end"] = now.AddDate(2, 10, 0).Format("2006-01-02T15:04:05Z")
 		}
 
-		// Make create renewal request
 		var payload string
-		payload = getPayload(file, pdata)
-
-		bash = "echo '" + payload + "' | contract call EnsureContractForExternalAccount " + pdata["random_account_id"] + " -"
+		payload = `{"name": "` + pdata["random_account_id"] + `", "type": "paid", "externalID": {"origin": "Salesforce", "IDs": ["` + pdata["random_account_id"] + `"]}}`
+		fmt.Println(string(payload))
+		bash = "echo '" + payload + "' | contract call EnsureAccountWithExternalID -"
 		resp, _ = exec.Command("bash", "-c", bash).Output()
 		fmt.Println(string(resp))
 
 		// Unmarshal is ideal but it won't work :(
 		// var acdata = new(params.AccountContractInfo)
 		// err0 := yaml.Unmarshal(resp, &acdata)
-
 		r, _ := regexp.Compile("id: a([a-zA-Z0-9-_]*)")
+		fmt.Println(r)
 		matched_strings := r.FindAllString(string(resp), -1)
 
 		// Because mashalling response was erroring out we regex for the accountID
 		state.Status.AccountID = strings.Replace(matched_strings[0], "id: ", "", 1)
 		fmt.Println(state.CGREEN + "Set AccountID: " + state.Status.AccountID + state.CEND)
 
-		payload = `{"email": ` + state.Status.Email + `, "role": "admin"}`
+		payload = `{"nameHint": ` + state.Status.Email + `, "email": ` + state.Status.Email + `, "role": "admin", "explanation": "how dare you demand this"}`
 		bash = "echo '" + payload + "' | contract call SetAccountUserRole " + state.Status.AccountID + " -"
 		resp, _ = exec.Command("bash", "-c", bash).Output()
 
 		fmt.Println(string(resp))
+
+		// Make create renewal request
+		payload = getPayload(file, pdata)
+		fmt.Println(string(payload))
+		bash = "echo '" + payload + "' | contract call EnsureContractForExternalAccount " + pdata["random_account_id"] + " -"
+		resp, _ = exec.Command("bash", "-c", bash).Output()
+		fmt.Println(string(resp))
+
 		fmt.Println(state.CGREEN + "Rewnal was attached" + state.CEND)
 	},
 }

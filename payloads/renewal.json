@@ -1,61 +1,53 @@
 {
-    "accountName":"Account with renewal",
-    "contractName":"UA Infrastructure - Advanced (Desktop)",
-    "productIDs":[
-       "uai-advanced-desktop"
-    ],
-    "items":[
-       {
-          "effectiveFrom":"${contract_start}",
-          "effectiveTo":"${contract_end}",
-          "externalIDs":[
-             {
-                "IDs":[
-                   "${random_asset_id}"
-                ],
-                "origin":"Salesforce"
-             }
-          ],
-          "metric":"units",
-          "value":5,
-          "reason":"contract_created"
-       }
-    ],
-    "renewals":[
-       {
-          "actionable":true,
-          "status":"pending",
-          "start":"${renewal_start}",
-          "end":"${renewal_end}",
-          "newContractStart":"${contract_end}",
-          "externalAssetIDs":{
-             "IDs":[
-                "${random_asset_id}"
-             ],
-             "origin":"Salesforce"
+  "accountName": "Account with renewal",
+  "contractName": "Ubuntu Pro (Infra-only)",
+  "productIDs": ["uai-essential-physical"],
+  "items": [
+    {
+      "effectiveFrom": "${contract_start}",
+      "effectiveTo": "${contract_end}",
+      "externalIDs": [
+        {
+          "IDs": ["${random_asset_id}"],
+          "origin": "Salesforce"
+        }
+      ],
+      "metric": "units",
+      "value": 2,
+      "reason": "contract_created"
+    }
+  ],
+  "renewals": [
+    {
+      "actionable": true,
+      "status": "pending",
+      "start": "${renewal_start}",
+      "end": "${renewal_end}",
+      "newContractStart": "${contract_end}",
+      "externalAssetIDs": {
+        "IDs": ["${random_asset_id}"],
+        "origin": "Salesforce"
+      },
+      "externalAccountID": {
+        "IDs": ["${random_account_id}"],
+        "origin": "Salesforce"
+      },
+      "renewalItems": [
+        {
+          "allowance": {
+            "metric": "units",
+            "value": 4
           },
-          "externalAccountID":{
-             "IDs":[
-                "${random_account_id}"
-             ],
-             "origin":"Salesforce"
+          "pricePerUnit": {
+            "currency": "USD",
+            "value": 22500
           },
-          "renewalItems":[
-             {
-                "allowance":{
-                   "metric":"units",
-                   "value":5
-                },
-                "pricePerUnit":{
-                   "currency":"USD",
-                   "value":30000
-                },
-                "priceTotal":{
-                   "currency":"USD",
-                   "value":150000
-                }
-             }
-          ]
-       }
-    ]
+          "priceTotal": {
+            "currency": "USD",
+            "value": 90000
+          }
+        }
+      ]
+    }
+  ]
 }

@@ -29,13 +29,20 @@ var resetCmd = &cobra.Command{
 			return
 		}
 
-		// If yes detach account
-		resp := exec.Command("contract", "set-account-access", state.Status.AccountID, "none", state.Status.Email, "--force")
-		err := resp.Run()
+		// Refresh app
+		initCmd.Run(initCmd, args)
 
-		if err != nil {
-			fmt.Println(err)
-		}
+		// If yes detach account
+		var payload string
+		payload = `{"nameHint": ` + state.Status.Email + `, "email": ` + state.Status.Email + `, "role": "none", "explanation": "how dare you demand this"}`
+
+		var bash string
+		bash = "echo '" + payload + "' | contract call set-account-user-role " + state.Status.AccountID + " - --force=true"
+		fmt.Println("")
+		fmt.Println(string(bash))
+		var resp []byte
+		resp, _ = exec.Command("bash", "-c", bash).Output()
+		fmt.Println(string(resp))
 
 		// Reset account env from the App
 		state.Status.AccountID = ""
